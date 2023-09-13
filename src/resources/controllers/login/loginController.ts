@@ -30,7 +30,7 @@ class LoginController implements Controller {
             const { cpf, senha } = loginUser.parse(req.body);
 
             const user = await userModel
-                .findOne({ cpf: cpf })
+                .findOne({ cpf_cnpj: cpf })
                 .populate('senha');
 
             if (!user) {

@@ -8,6 +8,8 @@ import bcryptjs from 'bcryptjs';
 import { compare } from 'bcryptjs';
 
 import auth from '@/middleware/authMiddleware';
+import Multer from '@/middleware/multerMiddleware';
+import addImage from '@/utils/firebase/firebase';
 
 class UserController implements Controller {
     public path = '/user';
@@ -25,7 +27,13 @@ class UserController implements Controller {
             [auth],
             this.getUserByParam,
         );
-        this.router.put(`${this.path}/editaccount`, auth, this.editarConta);
+        this.router.patch(
+            `${this.path}/editaccount`,
+            auth,
+            Multer.array('imagens'),
+            addImage,
+            this.editarConta,
+        );
         this.router.post(`${this.path}/delete`, auth, this.deleteaccount);
     }
 
@@ -63,6 +71,7 @@ class UserController implements Controller {
                     celular,
                     receberatt,
                     dataNascimento,
+                    nacionalidade: 'BRASILEIRO',
                 });
 
                 return res.status(201).json({
@@ -123,43 +132,72 @@ class UserController implements Controller {
         const session = await mongoose.startSession();
         session.startTransaction();
         try {
+            const firebaseUrl = (req.body as any)?.urls || [''];
             const editUserBody = z.object({
-                nome: z.string().min(1).optional(),
-                email: z.string().email().optional(),
-                cpf_cnpj: z.string().optional(),
-                celular: z.string().optional(),
-                receberatt: z.boolean().optional(),
-                dataNascimento: z.string().optional(),
                 userId: z.string(),
+                estadoCivil: z.string().optional(),
+                email: z.string().email().optional(),
+                cep: z.string().optional(),
+                uf: z.string().optional(),
+                cidade: z.string().optional(),
+                bairro: z.string().optional(),
+                rua: z.string().optional(),
+                numero: z.string().optional(),
+                tipo: z.string().optional(),
+                complemento: z.string().optional(),
             });
             const {
                 userId,
-                nome,
+                estadoCivil,
                 email,
-                cpf_cnpj,
-                celular,
-                receberatt,
-                dataNascimento,
+                cep,
+                uf,
+                cidade,
+                bairro,
+                rua,
+                numero,
+                tipo,
+                complemento,
             } = editUserBody.parse(req.body);
+
+            let iniciais = '';
+            let assinatura = '';
+
+            firebaseUrl.forEach((element: { tipo: string; url: string }) => {
+                if (element.tipo == 'iniciais') {
+                    iniciais = element.url;
+                }
+                if (element.tipo == 'assinatura') {
+                    assinatura = element.url;
+                }
+            });
 
             const user = await userModel.findById(userId);
             if (!user) {
                 throw new Error('User data not found');
             }
-            await userModel.updateOne(
+            const newuser = await userModel.findOneAndUpdate(
                 { _id: userId },
                 {
-                    nome: nome || user.nome,
                     email: email || user.email,
-                    cpf_cnpj: cpf_cnpj || user.cpf_cnpj,
-                    celular: celular || user.celular,
-                    receberatt: receberatt || user.receberatt,
-                    dataNascimento: dataNascimento || user.dataNascimento,
+                    estadoCivil: estadoCivil || user.estadoCivil,
+                    cep: cep || user.cep,
+                    uf: uf || user.uf,
+                    cidade: cidade || user.cidade,
+                    bairro: bairro || user.bairro,
+                    rua: rua || user.rua,
+                    numero: numero || user.numero,
+                    tipo: tipo || user.tipo,
+                    complemento: complemento || user.complemento,
+                    iniciais: iniciais || user.iniciais,
+                    assinatura: assinatura || user.assinatura,
                 },
             );
 
             await session.commitTransaction();
-            return res.status(201).json({ message: 'Update with success' });
+            return res
+                .status(201)
+                .json({ message: 'Update with success', user: newuser });
         } catch (error: any) {
             console.log(error);
             await session.abortTransaction();
