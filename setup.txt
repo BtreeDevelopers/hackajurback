@@ -1,0 +1,147 @@
+npm init -y
+npm i -D typescript tsc-watch eslint prettier eslint-config-prettier eslint-plugin-prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin @types/node @types/express
+npm i express dotenv
+
+npx tsc --init
+
+* Change the tsconfig.json:
+"baseUrl": "./src",
+"outDir": "dist", 
+"paths": {
+      "@/resources/*": ["resources/*"],
+      "@/utils/*": ["utils/*"],
+      "@/middleware/*": ["middleware/*"],
+},
+
+* Scripts:
+    "start": "node dist/index.js",
+    "dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
+    "build": "tsc",
+    "postinstall": "npm run build"
+
+Create file .eslintrc.js
+Create file .prettierrc.js
+Create file .gitignore
+
+npm i module-alias
+npm i --save-dev @types/module-alias
+
+* In the package.json, config the module-alias:
+"_moduleAliases": {
+    "@/resources": "dist/resources",
+    "@/utils": "dist/utils",
+    "@/middleware": "dist/middleware"
+}
+
+Create the folder src and the inner folders middleware, utils,resources
+Create the files app.ts and index.ts and app.js
+
+
+npm i cors morgan helmet
+npm i --save-dev @types/cors
+npm i --save-dev @types/morgan
+
+morgan => log of HTTP requisitions
+helmet => set HTTP headers
+
+npm i express zod --save
+npm i @types/express --save-dev
+
+npm i mongoose
+
+npm i jsonwebtoken
+npm i --save-dev @types/jsonwebtoken
+
+create the function genetareToken, it can be found in utils/Auth/jwt.auth.ts
+
+import jwt from 'jsonwebtoken';
+
+function generateToken(params={}): string{
+    return jwt.sign(
+        params,
+        String(process.env.JWT_SECRET),
+        {
+            expiresIn: '1 day'
+        }
+    )
+}
+export default generateToken;
+
+
+
+
+create the middleware JWT, can be found in middleware/auth.middleware.ts
+
+import { NextFunction, Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+
+const auth = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<any> => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({ erro: 'Token not found' });
+    } else {
+        const parts = authHeader.split(' ');
+        if (!(parts.length === 2)) {
+            return res.status(401).json({ erro: 'Token not found' });
+        } else {
+            const [scheme, token] = parts;
+
+            if (!/^Bearer$/i.test(scheme)) {
+                return res.status(401).json({ erro: 'Token seems broken' });
+            }
+            jwt.verify(
+                token,
+                String(process.env.JWT_SECRET),
+                (err, decoded: any) => {
+                    if (err) {
+                        return res.status(401).json({ erro: 'Token unvalid' });
+                    }
+                    req.userId = decoded.id;
+                    return next();
+                }
+            );
+        }
+    }
+};
+
+export default auth;
+
+
+
+
+
+Is needed to modify the Request interface of Express, can see it on @types/express/index.d.ts
+
+declare namespace Express {
+    interface Request {
+        userId: string;
+    }
+}
+
+
+
+npm install jest --save-dev
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",}
+
+
+npm install supertest --save-dev
+
+
+
+Create the Interface for Controllers src\utils\interfaces\controllerInterface.ts
+
+import { Router } from 'express';
+
+interface Controller{
+    path: string;
+    router: Router
+}
+
+export default Controller;
