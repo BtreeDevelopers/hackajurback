@@ -55,7 +55,7 @@ class LoginController implements Controller {
                         contrato: element.contrato,
                         userId: element.userId,
                         termoconfissaodivida: element.termoconfissaodivida,
-                        propostasstring: element.propostas,
+                        propostas: element.propostas,
                         propostaescolhida: element.propostaescolhida,
                         forma_de_pagamento: element.forma_de_pagamento,
                     };
