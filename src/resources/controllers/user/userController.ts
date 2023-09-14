@@ -162,6 +162,7 @@ class UserController implements Controller {
 
             let iniciais = '';
             let assinatura = '';
+            let fotoPerfil = '';
 
             firebaseUrl.forEach((element: { tipo: string; url: string }) => {
                 if (element.tipo == 'iniciais') {
@@ -169,6 +170,9 @@ class UserController implements Controller {
                 }
                 if (element.tipo == 'assinatura') {
                     assinatura = element.url;
+                }
+                if (element.tipo == 'fotoPerfil') {
+                    fotoPerfil = element.url;
                 }
             });
 
@@ -191,6 +195,7 @@ class UserController implements Controller {
                     complemento: complemento || user.complemento,
                     iniciais: iniciais || user.iniciais,
                     assinatura: assinatura || user.assinatura,
+                    fotoPerfil: fotoPerfil || user.fotoPerfil,
                 },
             );
 

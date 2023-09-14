@@ -7,6 +7,8 @@ import { compare } from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose';
 import generateToken from '@/utils/Auth/jwt.auth';
+import dividaModel from '@/resources/models/dividaModel';
+import statusDivida from '@/utils/enum/statusDividaENUM';
 
 class LoginController implements Controller {
     public path = '/login';
@@ -42,6 +44,22 @@ class LoginController implements Controller {
                 if (!passwordMatch)
                     throw new Error('Usuário ou senha incorretos');
                 const token = generateToken({ id: user._id });
+                const dividas = await dividaModel.find({
+                    userId: user._id,
+                });
+                const div = dividas.map((element) => {
+                    return {
+                        nome: element.nome,
+                        status: statusDivida[element.status],
+                        saldo: element.saldo,
+                        contrato: element.contrato,
+                        userId: element.userId,
+                        termoconfissaodivida: element.termoconfissaodivida,
+                        propostasstring: element.propostas,
+                        propostaescolhida: element.propostaescolhida,
+                        forma_de_pagamento: element.forma_de_pagamento,
+                    };
+                });
 
                 return res.status(200).json({
                     token,
@@ -54,6 +72,7 @@ class LoginController implements Controller {
                         receberatt: user.receberatt,
                         dataNascimento: user.dataNascimento,
                     },
+                    dividas: div,
                 });
             }
         } catch (error: any) {

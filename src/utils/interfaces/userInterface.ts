@@ -19,6 +19,7 @@ interface User extends Document {
     complemento: string;
     assinatura: string;
     iniciais: string;
+    fotoPerfil: string;
 }
 
 export default User;

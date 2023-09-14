@@ -25,6 +25,7 @@ const UserSchema = new Schema(
         complemento: { type: String, require: false },
         assinatura: { type: String, require: false },
         iniciais: { type: String, require: false },
+        fotoPerfil: { type: String, require: false },
     },
     {
         timestamps: true,
