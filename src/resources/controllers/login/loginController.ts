@@ -49,6 +49,7 @@ class LoginController implements Controller {
                 });
                 const div = dividas.map((element) => {
                     return {
+                        _id: element._id,
                         nome: element.nome,
                         status: statusDivida[element.status],
                         saldo: element.saldo,
