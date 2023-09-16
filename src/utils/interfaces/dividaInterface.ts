@@ -10,6 +10,7 @@ interface Divida extends Document {
     propostas: Array<string>;
     propostaescolhida: string;
     forma_de_pagamento: string;
+    vencimento: Date;
 }
 
 export default Divida;

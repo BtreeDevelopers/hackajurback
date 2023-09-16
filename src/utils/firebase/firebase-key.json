@@ -1,13 +1,13 @@
 {
-    "type": "",
-    "project_id": "",
-    "private_key_id": "",
-    "private_key": "",
-    "client_email": "",
-    "client_id": "",
-    "auth_uri": "",
-    "token_uri": "",
-    "auth_provider_x509_cert_url": "",
-    "client_x509_cert_url": "",
-    "universe_domain": ""
-}
+    "type": "service_account",
+    "project_id": "hackajuralgar",
+    "private_key_id": "1bb0e1ed9b26fdd23395ef9658efb0adbe4ef4da",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDXUqaJ+7vrDXtb\nhwdxUN67Tmh461QIju0GIoBKS0EPzd4ci0b7d+mYtAgSNBpCJv7c7dmLt6cLTBjC\nrnGtMnm2MK9nrlK8A14MgQQAyoE1ChEVqcP+nuiehmagIAHZDKKp7iFjZ5XlpbGd\nQ07ymW+RMCBcKSVpKuqYc8Miu+JPw0907K9qDimRg5OPPP2u2kJQUptZTSuRrix6\nRCDHP+1MjYCJUcrceUa+TtyUK1H6APjgy/gpPPPwuEriW2qFXVAqC/ypqcVVrySX\nQVUgJfNRV1J9VZP44VfaUxHc+nxEGnBQ4nXDXjx38xwvcWBVIEUODXV7R77Qr+QO\nI4da3fnVAgMBAAECggEABG3uqhupF81CXTV6ZDeHKsWSpZt7B5AKdTFZf+3Atrau\nm9oLnu8DuatJF+LFgC3gLqL1R4gCzNsxuTOFzXZ32tUb4/SfPr83pzyHh2KjD3ht\nCzaKUcnAEZ7EgVpsiflWEUvU7lVlAoE1laga+Xz0NsGNhjJ8fVzaJZe1YG4Kr5xU\nbxevC+mxMHU8xd7Mu69psjaZVoQB+9+ZqciaV3dn0+57okKYBBvaf2XweKJgDH4m\nhYbZSPXkMCSS417PfcSy5xnT+4Q5T+3bwyCMQP6QFGYOaZm2Ri4Sfpx7IzvfDovn\nDmLubkd9CmtIh0cHROA5dpSTenFaXuZj0o7aBwGMwQKBgQD6tkyuR0CnrFDaFMcd\nH0KhsW/kAT+v3gUY5Pz52iFKbRwfaqyz9sDDeACARO3MoPGEaYSXNlgcM1Kyfuvw\nbnhUSO17NLTPHljyFTzysQRWrj7Rwp2Gre1GTiRsJZlzsON5g9VBGo/G2cU9E+46\noUrv0X1t0zFzDQL0XUEB71tEtQKBgQDb3UT9gn4NPoXBp5u1XUapthc989JFIbdH\nihZb3Cw4eMgE2f0tK6/6sp4C9BeCNUrCqnpmNPkRtlpat5zi5HF32cPBWhSMGnD/\nltBw89WMQDOpNX0+BPo07UBCdZTRTT+2Bq9PNCLNvkWeDzjcXFwWtKi0QsA3pst3\nR8/1k1c0oQKBgAtANQ65GdisbfBrcEgJSBczfD7yI2aEAxyL4iJgPJA3d0Sdp+Rn\nlVzwPK2E6lr9efkkNxQGF0wkrXhfI71lZ7b4ktetlNOanAk5FMQbV4OATEdjgWgy\n0+wMw6uqwEklzf99AAvs4jjdOvGzvEQbSt6aOxO7n4N3OQO4T5uDn0flAoGAHHgM\nRN8uvzxHSYoQaW2IhtUjMUxu/7Cb8NF6j650s2NAUxB+7ehoQwf52dwNZzjLU2WL\nr8xQK/D2xiRcVizKXICADntBidqqow2+M8H+9sghaFmau/sdAtltpq1e9bMQ+trm\nvFS95PIsRYknDbGP4wjFh4HVLd+VHP7ZeKz5b8ECgYA8laMoZHYRoCNGTyTBG+Rj\n0XTDDWVG2zJgqhlm9UlPLS9yMlv26XZHnQdnyFWpnSSX9e0bhbNN/0/IMfrIedj4\nINkLcB9DHcuIO4B/CbjM1yNEEg03UjGEeGyryDTTjFa9voxnZNF1GGlwkPmdRzy8\nnOCwpgTNqdiVadTRWKUOiw==\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-oypth@hackajuralgar.iam.gserviceaccount.com",
+    "client_id": "105385739581062866640",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-oypth%40hackajuralgar.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }

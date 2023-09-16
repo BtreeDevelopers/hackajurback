@@ -16,14 +16,14 @@ async function uploadImage(file: Express.Multer.File) {
         if (!file) {
             return { error: 'No file provided' };
         }
-        const fileName = `${Date.now()}` + file.originalname;
+        const fileName = `${Date.now()}` + file.fieldname;
         var buffer = new Uint8Array(file.buffer);
         const url = await bucket.file(fileName);
         //.getSignedUrl({ action: 'read', expires: '03-01-2500' });
         await bucket.file(fileName).save(buffer, { resumable: true });
         url.makePublic();
         return {
-            tipo: file.originalname.split('.').slice(0, -1).join('.'),
+            tipo: file.fieldname,
             url: `https://storage.googleapis.com/${process.env.BUCKET}/${fileName}`,
         };
     } catch (error: any) {

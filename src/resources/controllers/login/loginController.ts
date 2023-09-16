@@ -59,6 +59,7 @@ class LoginController implements Controller {
                         propostas: element.propostas,
                         propostaescolhida: element.propostaescolhida,
                         forma_de_pagamento: element.forma_de_pagamento,
+                        vencimento: element.vencimento
                     };
                 });
 

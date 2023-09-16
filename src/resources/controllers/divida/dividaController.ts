@@ -30,6 +30,7 @@ class DividaController implements Controller {
                 propostas: z.array(z.string()),
                 propostaescolhida: z.string(),
                 forma_de_pagamento: z.string(),
+                vencimento: z.string().datetime(),
             });
 
             const {
@@ -42,6 +43,7 @@ class DividaController implements Controller {
                 propostas,
                 propostaescolhida,
                 forma_de_pagamento,
+                vencimento
             } = newDividaBody.parse(req.body);
 
             const data = await dividaModel.create({
@@ -54,6 +56,7 @@ class DividaController implements Controller {
                 propostas,
                 propostaescolhida,
                 forma_de_pagamento,
+                vencimento
             });
 
             return res.status(201).json({
@@ -80,6 +83,7 @@ class DividaController implements Controller {
                 propostas: element.propostas,
                 propostaescolhida: element.propostaescolhida,
                 forma_de_pagamento: element.forma_de_pagamento,
+                vencimento: element.vencimento
             };
         });
 

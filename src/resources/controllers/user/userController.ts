@@ -30,7 +30,7 @@ class UserController implements Controller {
         this.router.patch(
             `${this.path}/editaccount`,
             auth,
-            Multer.array('imagens'),
+            Multer.any(),
             addImage,
             this.editarConta,
         );

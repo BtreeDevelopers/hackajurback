@@ -13,6 +13,7 @@ const CredorSchema = new Schema(
         propostas: { type: [String], require: false },
         propostaescolhida: { type: String, require: false },
         forma_de_pagamento: { type: String, require: true },
+        vencimento:{type: Date, require: true}
     },
     {
         timestamps: true,
