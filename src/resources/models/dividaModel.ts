@@ -9,11 +9,20 @@ const CredorSchema = new Schema(
         saldo: { type: Number, require: true },
         contrato: { type: String, require: true },
         userId: { type: String, require: true },
-        termoconfissaodivida: { type: String, require: false },
         propostas: { type: [String], require: false },
         propostaescolhida: { type: String, require: false },
-        forma_de_pagamento: { type: String, require: true },
-        vencimento:{type: Date, require: true}
+        forma_de_pagamento: { type: String, require: false },
+        estadocivil_envolvido: { type: String, require: false },
+        nacionalidade_envolvido: { type: String, require: false },
+         rua_envolvido: { type: String, require: false },
+         numero_envolvido: { type: String, require: false }, 
+         bairro_envolvido: { type: String, require: false },
+         cidade_envolvido: { type: String, require: false }, 
+         uf_envolvido: { type: String, require: false },
+         complemento_envolvido: { type: String, require: false }, 
+         cpf_envolvido: { type: String, require: false }, 
+         nome_envolvido: { type: String, require: false },
+
     },
     {
         timestamps: true,

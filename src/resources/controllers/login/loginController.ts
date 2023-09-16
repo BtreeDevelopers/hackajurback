@@ -50,30 +50,32 @@ class LoginController implements Controller {
                 const div = dividas.map((element) => {
                     return {
                         _id: element._id,
-                        nome: element.nome,
-                        status: statusDivida[element.status],
-                        saldo: element.saldo,
-                        contrato: element.contrato,
-                        userId: element.userId,
-                        termoconfissaodivida: element.termoconfissaodivida,
-                        propostas: element.propostas,
-                        propostaescolhida: element.propostaescolhida,
-                        forma_de_pagamento: element.forma_de_pagamento,
-                        vencimento: element.vencimento
+                nome: element.nome,
+                status: statusDivida[element.status],
+                saldo: element.saldo,
+                contrato: element.contrato,
+                userId: element.userId,
+                propostas: element.propostas,
+                propostaescolhida: element.propostaescolhida,
+                forma_de_pagamento: element.forma_de_pagamento,
+                estadocivil_envolvido: element.forma_de_pagamento,
+                nacionalidade_envolvido: element.forma_de_pagamento, 
+                rua_envolvido: element.forma_de_pagamento,
+                numero_envolvido: element.forma_de_pagamento,
+                 bairro_envolvido: element.forma_de_pagamento,
+                 cidade_envolvido: element.forma_de_pagamento, 
+                 uf_envolvido: element.forma_de_pagamento,
+                 complemento_envolvido: element.forma_de_pagamento, 
+                 cpf_envolvido: element.forma_de_pagamento, 
+                 nome_envolvido: element.forma_de_pagamento,
+                        
                     };
                 });
-
+                const user2 = await userModel
+                .findOne({ cpf_cnpj: cpf })
                 return res.status(200).json({
                     token,
-                    user: {
-                        _id: user._id,
-                        nome: user.nome,
-                        email: user.email,
-                        cpf_cnpj: user.cpf_cnpj,
-                        celular: user.celular,
-                        receberatt: user.receberatt,
-                        dataNascimento: user.dataNascimento,
-                    },
+                    user:user2,
                     dividas: div,
                 });
             }

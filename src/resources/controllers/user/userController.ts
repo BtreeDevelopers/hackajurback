@@ -10,6 +10,7 @@ import { compare } from 'bcryptjs';
 import auth from '@/middleware/authMiddleware';
 import Multer from '@/middleware/multerMiddleware';
 import addImage from '@/utils/firebase/firebase';
+import dividaModel from '@/resources/models/dividaModel';
 
 class UserController implements Controller {
     public path = '/user';
@@ -36,8 +37,15 @@ class UserController implements Controller {
         );
         this.router.post(`${this.path}/delete`, auth, this.deleteaccount);
     }
+    
 
     private async createNewUser(req: Request, res: Response): Promise<any> {
+        function generateRandomDate(from:any, to:any) {
+            return new Date(
+              from.getTime() +
+                Math.random() * (to.getTime() - from.getTime()),
+            );
+          }
         try {
             const newUserBody = z.object({
                 nome: z.string().min(1),
@@ -47,6 +55,10 @@ class UserController implements Controller {
                 celular: z.string(),
                 receberatt: z.boolean(),
                 dataNascimento: z.string(),
+                nome_empresa: z.string().optional(), 
+                cpf_representado: z.string().optional(), 
+                pj_direito: z.string().optional(),
+                cnpj: z.string().optional(), 
             });
 
             const {
@@ -57,9 +69,13 @@ class UserController implements Controller {
                 celular,
                 receberatt,
                 dataNascimento,
+                nome_empresa, 
+                cpf_representado, 
+                pj_direito,
+                cnpj 
             } = newUserBody.parse(req.body);
 
-            const user = await userModel.findOne({ email });
+            const user = await userModel.findOne({ cpf_cnpj });
 
             if (!user) {
                 const hash = await bcryptjs.hash(senha, 10);
@@ -72,7 +88,34 @@ class UserController implements Controller {
                     receberatt,
                     dataNascimento,
                     nacionalidade: 'BRASILEIRO',
+                    nome_empresa, 
+                    cpf_representado, 
+                    pj_direito,
+                    cnpj,
+                    score: Math.floor(Math.random()*70)+30
                 });
+                
+                const nomes_dividas = ['Internet Fibra',
+                'Pré-pago',
+                'Directv GO',
+                'Aparelhos Apple',
+                'Casa on',
+                ]
+
+                let listOfDividas = [];
+
+                for (let index = 0; index < Math.floor(Math.random()*6); index++) {
+                    listOfDividas.push({
+                        nome:nomes_dividas[Math.floor(Math.random()*4)],
+                        status:0,
+                        saldo:Math.random()*1000,
+                        contrato: Math.floor(Math.random()*Date.now()),
+                        userId: data._id,
+                        vencimento:  generateRandomDate(new Date(2023, 0, 1), new Date())
+                    })
+                    
+                }
+                const newDividas = await dividaModel.insertMany(listOfDividas);
 
                 return res.status(201).json({
                     data: { nome: data.nome, email: data.email, _id: data._id },
@@ -145,6 +188,8 @@ class UserController implements Controller {
                 numero: z.string().optional(),
                 tipo: z.string().optional(),
                 complemento: z.string().optional(),
+               
+                
             });
             const {
                 userId,
@@ -180,6 +225,8 @@ class UserController implements Controller {
             if (!user) {
                 throw new Error('User data not found');
             }
+
+            console.log(fotoPerfil)
             const newuser = await userModel.findOneAndUpdate(
                 { _id: userId },
                 {

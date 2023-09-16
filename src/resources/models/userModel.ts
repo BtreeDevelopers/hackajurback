@@ -26,6 +26,12 @@ const UserSchema = new Schema(
         assinatura: { type: String, require: false },
         iniciais: { type: String, require: false },
         fotoPerfil: { type: String, require: false },
+        nacionalidade: {type: String, require: false},
+        nome_empresa: {type: String, require: false}, 
+        cpf_representado: {type: String, require: false}, 
+        pj_direito: {type: String, require: false},
+        cnpj: {type: String, require: false},
+        score:{type:Number, require:false}
     },
     {
         timestamps: true,

@@ -20,6 +20,15 @@ interface User extends Document {
     assinatura: string;
     iniciais: string;
     fotoPerfil: string;
+    nacionalidade: string;
+    
+    nome_empresa: string; 
+    cpf_representado: string; 
+    pj_direito: string;
+    cnpj: string;
+
+    score: number;
+    
 }
 
 export default User;
