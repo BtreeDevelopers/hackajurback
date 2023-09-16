@@ -197,6 +197,9 @@ class UserController implements Controller {
                     assinatura: assinatura || user.assinatura,
                     fotoPerfil: fotoPerfil || user.fotoPerfil,
                 },
+                {
+                    new:true
+                }
             );
 
             await session.commitTransaction();
