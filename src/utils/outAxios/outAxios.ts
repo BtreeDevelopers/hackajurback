@@ -1,9 +1,8 @@
 import axios from 'axios';
 
 export const outAxios = axios.create({
-    baseURL: String(process.env.AUTH_URL),
+    baseURL: String(process.env.URL_PYTHON_BACKEND),
     headers: {
-        secret: `${process.env.ALLOWED_APP}`,
         'Accept-Encoding': '*',
     },
 });

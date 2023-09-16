@@ -3,6 +3,7 @@ import dividaModel from '@/resources/models/dividaModel';
 import credorModel from '@/resources/models/dividaModel';
 import statusDivida from '@/utils/enum/statusDividaENUM';
 import Controller from '@/utils/interfaces/controllerInterface';
+import { outAxios } from '@/utils/outAxios/outAxios';
 import { Router, Request, Response } from 'express';
 import { z } from 'zod';
 
@@ -17,6 +18,7 @@ class DividaController implements Controller {
     public async initialiseRoutes(): Promise<void> {
         this.router.post(`${this.path}`, this.createNewDivida);
         this.router.get(`${this.path}`, auth, this.listUserDivida);
+        this.router.get(`${this.path}/gerarconfissao/:id_divida`, auth, this.gerarTermoConf)
     }
     private async createNewDivida(req: Request, res: Response): Promise<any> {
         try {
@@ -88,6 +90,30 @@ class DividaController implements Controller {
         });
 
         return res.status(201).json({ dividas: div });
+    }
+
+    private async gerarTermoConf(req: Request, res: Response): Promise<any> {
+        try {
+            const divida = await dividaModel.findById(req.params.id_divida)
+            if(!divida){
+                throw new Error('Divida não encontrada');
+            }
+            const termos = await outAxios.get('/gerarconfissao', {
+                params: {
+                    id_divida:req.params.id_divida
+                }
+            });
+            await dividaModel.findByIdAndUpdate(divida._id,{
+                termoconfissaodivida: termos.data.urltermo
+            })
+            const dividas = await dividaModel.findById(req.params.id_divida)
+            
+            return res.status(200).json({termos:dividas});
+
+        } catch (error: any) {
+            return res.status(401).json(error);
+        }
+
     }
 }
 

@@ -16,7 +16,7 @@ async function uploadImage(file: Express.Multer.File) {
         if (!file) {
             return { error: 'No file provided' };
         }
-        const fileName = `${Date.now()}` + file.fieldname;
+        const fileName = `${Date.now()}` + file.originalname;
         var buffer = new Uint8Array(file.buffer);
         const url = await bucket.file(fileName);
         //.getSignedUrl({ action: 'read', expires: '03-01-2500' });
