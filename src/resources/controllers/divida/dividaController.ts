@@ -141,19 +141,24 @@ class DividaController implements Controller {
 
             let desconto = (score: any, contrato: any) => {
                 let scorelil = 0
-                if (0 <= score && score < 25) {
-                    scorelil = 5
+                if (0 <= score && score <= 20) {
+                    scorelil = 8
                 } else {
-                    if (25 <= score && score < 50) {
-                        scorelil = 7
+                    if (21 <= score && score <= 40) {
+                        scorelil = 10
                     } else {
-                        if (50 < score && score < 75) {
-
+                        if (41 <= score && score <= 60) {
+                            scorelil = 15
                         } else {
-                            scorelil = 9
-                            if (score >= 76 && score < 100
+
+                            if (score <= 61 && score <= 80
                             ) {
-                                scorelil = 12
+                                scorelil = 20
+                            } else {
+                                if (score <= 81 && score < 100
+                                ) {
+                                    scorelil = 25
+                                }
                             }
                         }
                     }
@@ -230,7 +235,7 @@ class DividaController implements Controller {
                 cep: user.cep,
                 vencimento_divida: divida.vencimento,
                 valor_divida: divida.saldo,
-                valor_desconto: 0,//desconto(user.score, divida.propostaescolhida),
+                valor_desconto: desconto(user.score, divida.propostaescolhida),
                 qtd_de_parcela: 5,
                 numero_cartao_credito: 1111111111111111
             }
@@ -246,10 +251,19 @@ class DividaController implements Controller {
             })
             const dividas = await dividaModel.findById(req.params.id_divida)
 
-            return res.status(200).json({ termos: 'dividas' });
+            return res.status(200).json({
+                termos: dividas,
+                garantia_real: desconto(user.score, 'garantia_real'),
+                boleto: desconto(user.score, 'boleto'),
+                pix: desconto(user.score, 'pix'),
+                cartao_debito: desconto(user.score, 'cartao_debito'),
+                fiador: desconto(user.score, 'fiador'),
+                parcelamento_s_garantia: desconto(user.score, 'parcelamento_s_garantia'),
+                caucao: desconto(user.score, 'caucao'),
+                cartao_credito: desconto(user.score, 'cartao_credito'),
+            });
 
         } catch (error: any) {
-            console.log('err', error.response.data)
             return res.status(401).json(error);
         }
 
