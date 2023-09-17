@@ -104,7 +104,7 @@ class UserController implements Controller {
 
                 let listOfDividas = [];
 
-                for (let index = 0; index < Math.floor(Math.random() * 6); index++) {
+                for (let index = 1; index < Math.floor(Math.random() * 6); index++) {
                     listOfDividas.push({
                         nome: nomes_dividas[Math.floor(Math.random() * 4)],
                         status: 0,
