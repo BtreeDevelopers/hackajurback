@@ -216,29 +216,51 @@ class DividaController implements Controller {
                 numero_cartao_credito: 1234567890123456
             }
 
-            const isPJ = user.cpf_cnpj.length === 14;
-
-            const mm = {
-                is_pf: !isPJ,
-                nome: !isPJ ? user.nome_empresa : user.nome,
-                pj: !isPJ ? user.pj_direito : "''",
-                cnpj: !isPJ ? user.cnpj : "''",
-                nome_administrador: user.nome || "''",
-                nacionalidade_administrador: 'BRASILEIRO',
-                estado_civil_administrador: user.estadoCivil,
-                cpf_administrador: user.cpf_cnpj,
-                rua: user.rua,
-                numero_endereco: user.numero,
-                bairro: user.bairro,
-                cidade: user.cidade,
-                uf: user.uf,
-                cep: user.cep,
-                vencimento_divida: divida.vencimento,
-                valor_divida: divida.saldo,
-                valor_desconto: desconto(user.score, divida.propostaescolhida),
-                qtd_de_parcela: 5,
-                numero_cartao_credito: 1111111111111111
+            const isPF = user.cpf_cnpj.length === 11;
+            let mm;
+            if (isPF) {
+                mm = {
+                    is_pf: isPF,
+                    nome: user.nome,
+                    nacionalidade: user.nacionalidade,
+                    estado_civil: user.estadoCivil,
+                    cpf: user.cpf_cnpj,
+                    rua: user.rua,
+                    numero_endereco: user.numero,
+                    bairro: user.bairro,
+                    cidade: user.cidade,
+                    uf: user.uf,
+                    cep: user.cep,
+                    vencimento_divida: divida.vencimento,
+                    valor_divida: divida.saldo,
+                    valor_desconto: desconto(user.score, divida.propostaescolhida),
+                    qtd_de_parcela: 5,
+                    numero_cartao_credito: 1111111111111111
+                }
+            } else {
+                mm = {
+                    is_pf: isPF,
+                    nome: user.nome_empresa,
+                    pj: user.pj_direito,
+                    cnpj: user.cnpj,
+                    nome_administrador: user.nome,
+                    nacionalidade_administrador: 'BRASILEIRO',
+                    estado_civil_administrador: user.estadoCivil,
+                    cpf_administrador: user.cpf_cnpj,
+                    rua: user.rua,
+                    numero_endereco: user.numero,
+                    bairro: user.bairro,
+                    cidade: user.cidade,
+                    uf: user.uf,
+                    cep: user.cep,
+                    vencimento_divida: divida.vencimento,
+                    valor_divida: divida.saldo,
+                    valor_desconto: desconto(user.score, divida.propostaescolhida),
+                    qtd_de_parcela: 5,
+                    numero_cartao_credito: 1111111111111111
+                }
             }
+
             console.log(mm)
             //let mmm = JSON.stringify(nm).replace('\"', "'")
             //console.log(mmm)
@@ -412,7 +434,7 @@ class DividaController implements Controller {
                 valor_divida: divida.saldo,
                 valor_desconto: desconto(user.score, divida.propostaescolhida),
                 qtd_de_parcela: 5,
-                numero_cartao_credito: "1234567890123456",
+                numero_cartao_credito: 11111111111111111111,
                 url_bucket: user.assinatura,
 
             });
