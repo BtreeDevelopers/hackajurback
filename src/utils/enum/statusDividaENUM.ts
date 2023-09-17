@@ -1,11 +1,11 @@
 enum statusDivida {
     'NaoIniciado' = 0,
-    'DividaReconhecida' = 1,
-    'AguardandoNovaProposta' = 2,
-    'PropostaRecebida' = 3,
-    'AguardandoAssinaturas' = 4,
-    'PropostaAprovada' = 5,
-    'PropostaReprovada' = 6,
+    'Iniciado' = 1,
+    'PropostaSelecionada' = 2,
+    'AguardandoAssinaturas' = 3,
+    'AguardandoPagamento' = 4,
+    'FinalizadoCompleto' = 5,
+    'FinalizadoIncompleto' = 6,
 }
 
 export default statusDivida;

@@ -37,15 +37,15 @@ class UserController implements Controller {
         );
         this.router.post(`${this.path}/delete`, auth, this.deleteaccount);
     }
-    
+
 
     private async createNewUser(req: Request, res: Response): Promise<any> {
-        function generateRandomDate(from:any, to:any) {
+        function generateRandomDate(from: any, to: any) {
             return new Date(
-              from.getTime() +
+                from.getTime() +
                 Math.random() * (to.getTime() - from.getTime()),
-            );
-          }
+            ).toISOString();
+        }
         try {
             const newUserBody = z.object({
                 nome: z.string().min(1),
@@ -55,10 +55,10 @@ class UserController implements Controller {
                 celular: z.string(),
                 receberatt: z.boolean(),
                 dataNascimento: z.string(),
-                nome_empresa: z.string().optional(), 
-                cpf_representado: z.string().optional(), 
+                nome_empresa: z.string().optional(),
+                cpf_representado: z.string().optional(),
                 pj_direito: z.string().optional(),
-                cnpj: z.string().optional(), 
+                cnpj: z.string().optional(),
             });
 
             const {
@@ -69,10 +69,10 @@ class UserController implements Controller {
                 celular,
                 receberatt,
                 dataNascimento,
-                nome_empresa, 
-                cpf_representado, 
+                nome_empresa,
+                cpf_representado,
                 pj_direito,
-                cnpj 
+                cnpj
             } = newUserBody.parse(req.body);
 
             const user = await userModel.findOne({ cpf_cnpj });
@@ -88,32 +88,32 @@ class UserController implements Controller {
                     receberatt,
                     dataNascimento,
                     nacionalidade: 'BRASILEIRO',
-                    nome_empresa, 
-                    cpf_representado, 
+                    nome_empresa,
+                    cpf_representado,
                     pj_direito,
                     cnpj,
-                    score: Math.floor(Math.random()*70)+30
+                    score: Math.floor(Math.random() * 70) + 30
                 });
-                
+
                 const nomes_dividas = ['Internet Fibra',
-                'Pré-pago',
-                'Directv GO',
-                'Aparelhos Apple',
-                'Casa on',
+                    'Pré-pago',
+                    'Directv GO',
+                    'Aparelhos Apple',
+                    'Casa on',
                 ]
 
                 let listOfDividas = [];
 
-                for (let index = 0; index < Math.floor(Math.random()*6); index++) {
+                for (let index = 0; index < Math.floor(Math.random() * 6); index++) {
                     listOfDividas.push({
-                        nome:nomes_dividas[Math.floor(Math.random()*4)],
-                        status:0,
-                        saldo:Math.random()*1000,
-                        contrato: Math.floor(Math.random()*Date.now()),
+                        nome: nomes_dividas[Math.floor(Math.random() * 4)],
+                        status: 0,
+                        saldo: Math.random() * 1000,
+                        contrato: Math.floor(Math.random() * Date.now()),
                         userId: data._id,
-                        vencimento:  generateRandomDate(new Date(2023, 0, 1), new Date())
+                        vencimento: generateRandomDate(new Date(2023, 0, 1), new Date())
                     })
-                    
+
                 }
                 const newDividas = await dividaModel.insertMany(listOfDividas);
 
@@ -188,8 +188,8 @@ class UserController implements Controller {
                 numero: z.string().optional(),
                 tipo: z.string().optional(),
                 complemento: z.string().optional(),
-               
-                
+
+
             });
             const {
                 userId,
@@ -245,7 +245,7 @@ class UserController implements Controller {
                     fotoPerfil: fotoPerfil || user.fotoPerfil,
                 },
                 {
-                    new:true
+                    new: true
                 }
             );
 

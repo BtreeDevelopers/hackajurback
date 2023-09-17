@@ -50,32 +50,32 @@ class LoginController implements Controller {
                 const div = dividas.map((element) => {
                     return {
                         _id: element._id,
-                nome: element.nome,
-                status: statusDivida[element.status],
-                saldo: element.saldo,
-                contrato: element.contrato,
-                userId: element.userId,
-                propostas: element.propostas,
-                propostaescolhida: element.propostaescolhida,
-                forma_de_pagamento: element.forma_de_pagamento,
-                estadocivil_envolvido: element.forma_de_pagamento,
-                nacionalidade_envolvido: element.forma_de_pagamento, 
-                rua_envolvido: element.forma_de_pagamento,
-                numero_envolvido: element.forma_de_pagamento,
-                 bairro_envolvido: element.forma_de_pagamento,
-                 cidade_envolvido: element.forma_de_pagamento, 
-                 uf_envolvido: element.forma_de_pagamento,
-                 complemento_envolvido: element.forma_de_pagamento, 
-                 cpf_envolvido: element.forma_de_pagamento, 
-                 nome_envolvido: element.forma_de_pagamento,
-                        
+                        nome: element.nome,
+                        status: statusDivida[element.status],
+                        saldo: element.saldo,
+                        contrato: element.contrato,
+                        userId: element.userId,
+                        propostas: element.propostas,
+                        propostaescolhida: element.propostaescolhida,
+                        forma_de_pagamento: element.forma_de_pagamento,
+                        estadocivil_envolvido: element.estadocivil_envolvido,
+                        nacionalidade_envolvido: element.nacionalidade_envolvido,
+                        rua_envolvido: element.rua_envolvido,
+                        numero_envolvido: element.numero_envolvido,
+                        bairro_envolvido: element.bairro_envolvido,
+                        cidade_envolvido: element.cidade_envolvido,
+                        uf_envolvido: element.uf_envolvido,
+                        complemento_envolvido: element.complemento_envolvido,
+                        cpf_envolvido: element.cpf_envolvido,
+                        nome_envolvido: element.nome_envolvido,
+                        vencimento: element.vencimento
                     };
                 });
                 const user2 = await userModel
-                .findOne({ cpf_cnpj: cpf })
+                    .findOne({ cpf_cnpj: cpf })
                 return res.status(200).json({
                     token,
-                    user:user2,
+                    user: user2,
                     dividas: div,
                 });
             }
@@ -89,6 +89,8 @@ class LoginController implements Controller {
             return res.status(400).json({ error });
         }
     }
+
+
 }
 
 export default LoginController;

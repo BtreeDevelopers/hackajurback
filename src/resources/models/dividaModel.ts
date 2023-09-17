@@ -14,14 +14,15 @@ const CredorSchema = new Schema(
         forma_de_pagamento: { type: String, require: false },
         estadocivil_envolvido: { type: String, require: false },
         nacionalidade_envolvido: { type: String, require: false },
-         rua_envolvido: { type: String, require: false },
-         numero_envolvido: { type: String, require: false }, 
-         bairro_envolvido: { type: String, require: false },
-         cidade_envolvido: { type: String, require: false }, 
-         uf_envolvido: { type: String, require: false },
-         complemento_envolvido: { type: String, require: false }, 
-         cpf_envolvido: { type: String, require: false }, 
-         nome_envolvido: { type: String, require: false },
+        rua_envolvido: { type: String, require: false },
+        numero_envolvido: { type: String, require: false },
+        bairro_envolvido: { type: String, require: false },
+        cidade_envolvido: { type: String, require: false },
+        uf_envolvido: { type: String, require: false },
+        complemento_envolvido: { type: String, require: false },
+        cpf_envolvido: { type: String, require: false },
+        nome_envolvido: { type: String, require: false },
+        vencimento: { type: String, require: false }
 
     },
     {

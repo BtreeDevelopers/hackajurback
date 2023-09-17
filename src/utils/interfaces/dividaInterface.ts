@@ -19,6 +19,7 @@ interface Divida extends Document {
     complemento_envolvido: string; 
     cpf_envolvido: string;
     nome_envolvido: string;
+    vencimento: string;
 }
 
 export default Divida;
