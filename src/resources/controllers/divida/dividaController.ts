@@ -269,7 +269,7 @@ class DividaController implements Controller {
 
 
             await dividaModel.findByIdAndUpdate(divida._id, {
-                propostas: termos.data.listUrls
+                propostas: termos.data.url
             })
             const dividas = await dividaModel.findById(req.params.id_divida)
 
