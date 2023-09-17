@@ -219,10 +219,10 @@ class DividaController implements Controller {
             const isPJ = user.cpf_cnpj.length === 14;
 
             const mm = {
-                is_pf: isPJ,
-                nome: isPJ ? user.nome_empresa : user.nome,
-                pj: isPJ ? user.pj_direito : "''",
-                cnpj: isPJ ? user.cnpj : "''",
+                is_pf: !isPJ,
+                nome: !isPJ ? user.nome_empresa : user.nome,
+                pj: !isPJ ? user.pj_direito : "''",
+                cnpj: !isPJ ? user.cnpj : "''",
                 nome_administrador: user.nome || "''",
                 nacionalidade_administrador: 'BRASILEIRO',
                 estado_civil_administrador: user.estadoCivil,
@@ -327,6 +327,61 @@ class DividaController implements Controller {
     }//
     private async assinardocumento(req: Request, res: Response): Promise<any> {
         try {
+            let desconto = (score: any, contrato: any) => {
+                let scorelil = 0
+                if (0 <= score && score <= 20) {
+                    scorelil = 8
+                } else {
+                    if (21 <= score && score <= 40) {
+                        scorelil = 10
+                    } else {
+                        if (41 <= score && score <= 60) {
+                            scorelil = 15
+                        } else {
+
+                            if (score <= 61 && score <= 80
+                            ) {
+                                scorelil = 20
+                            } else {
+                                if (score <= 81 && score < 100
+                                ) {
+                                    scorelil = 25
+                                }
+                            }
+                        }
+                    }
+                }
+
+                let tx = 0;
+                if (contrato == 'garantia_real') {
+                    tx = 3
+                }
+                if (contrato == 'boleto') {
+                    tx = 4
+                }
+                if (contrato == 'pix') {
+                    tx = 5
+                }
+                if (contrato == 'cartao_debito') {
+                    tx = 7
+                }
+                if (contrato == 'fiador') {
+                    tx = 3
+                }
+                if (contrato == 'parcelamento_s_garantia') {
+                    tx = 3
+                }
+                if (contrato == 'caucao') {
+                    tx = 5
+                }
+                if (contrato == 'cartao_credito') {
+                    tx = 7
+                }
+
+
+                return scorelil + tx
+
+            }
             const divida = await dividaModel.findById(req.params.id_divida);
             if (!divida) {
                 throw new Error('Divida não encontrada');
@@ -338,41 +393,27 @@ class DividaController implements Controller {
             if (!user) {
                 throw new Error('Usuario não encontrado');
             }
+            const isPJ = user.cpf_cnpj.length === 14;
 
             const termos = await outAxios.post('/document/gear-confissao-de-divida', {
                 tipo: divida.propostaescolhida,
-                url_assinatura: user.assinatura,
-                url_assinatura_envolvido: '',
-                nome_envolvido: '',
-                cpf_envolvido: '',
-                email_envolvido: '',
-                estadocivil_envolvido: '',
-                nacionalidade_envolvido: '',
-                complemento_envolvido: '',
-                rua_envolvido: '',
-                numero_envolvido: '',
-                bairro_envolvido: '',
-                cidade_envolvido: '',
-                uf_envolvido: '',
-                valor_divida: "",
-                porcentagem_desconto: '',
-                qtd_parcela: 5,
-                isPJ: user.cpf_cnpj.length === 14 ? true : false,
-                user: {
-                    nome: user.nome,
-                    nacionalidade: user.nacionalidade,
-                    estado_civil: user.estadoCivil,
-                    rua: user.rua,
-                    numero: user.numero,
-                    bairro: user.bairro,
-                    cidade: user.cidade,
-                    uf: user.uf,
-                    complemento: user.complemento,
-                    CPF: user.cpf_cnpj.length === 14 ? user.cpf_representado : '',
-                    nome_empresa: user.nome_empresa,
-                    pjdireito: user.pj_direito,
-                    cnpj: user.cpf_cnpj.length === 14 ? user.cpf_cnpj : ''
-                }
+                is_pf: isPJ,
+                nome: user.nome,
+                nacionalidade: user.nacionalidade,
+                estado_civil: user.estadoCivil,
+                cpf: user.cpf_cnpj,
+                rua: user.rua,
+                numero_endereco: user.numero,
+                bairro: user.bairro,
+                cidade: user.cidade,
+                uf: user.uf,
+                cep: user.cep,
+                vencimento_divida: divida.vencimento,
+                valor_divida: divida.saldo,
+                valor_desconto: desconto(user.score, divida.propostaescolhida),
+                qtd_de_parcela: 5,
+                numero_cartao_credito: "1234567890123456",
+                url_bucket: user.assinatura,
 
             });
             return res.status(200).json({ url_doc: termos.data.listUrls })
